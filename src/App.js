@@ -1,82 +1,142 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
-function App() {
-  const [status, setStatus] = React.useState('idle');
-  const [colors, setColors] = React.useState([]);
-  const [error, setError] = React.useState(null);
 
-  function getAListOfColors() {
-        setStatus('loading');
-        // Docs to use the hexbot API: https://github.com/noops-challenge/hexbot
-        fetch('http://api.noopschallenge.com/hexbot?count=10').then(
-          (response) => {
-            /** If we don't receive a successful response (status code: 200 OK)
-            * then something happened like: status 404, not found or status 500, API error
-            */
-            if(!response.ok) {
-              // Throw an error, this will be caught by .catch and printed on the console
-              throw new Error(`Network response was not ok, status code: ${response.status}`);
+function App(props) {
+  let [colorAdd, setColorAdd] = useState(
+    window.localStorage.getItem('colorAdd') ? window.localStorage.getItem('colorAdd').split(',') : props.colors)
+
+  useEffect(() => window.localStorage.setItem('colorAdd', colorAdd));
+
+
+  let [color, setColor] = useState(
+    colorAdd[0]
+  ); 
+
+  const gridInit = Array(100).fill('#FFF');
+
+  let [gridTam, setGridTam] = useState(
+    window.localStorage.getItem('gridTam') ? window.localStorage.getItem('gridTam').split(',') : gridInit)
+  useEffect(() => window.localStorage.setItem('gridTam', gridTam));
+
+
+  function clearBoard() {
+    setGridTam(gridInit);
+    
+  }
+
+  function getColors() {
+    const myColors = []
+    fetch('http://api.noopschallenge.com/hexbot?count=10').then(response =>
+      response.json()
+    ).then(myJson =>
+      myJson.colors.map(item => myColors.push(item.value))
+    ).then(() => {
+      setColorAdd(myColors);
+      setColor(myColors[0]);
+    }
+    )
+
+  }
+
+
+  function PickColor(props) {
+    const {
+        colors,
+        pickColor,
+        selectColor,
+    } = props;
+
+    return (
+            <ul style={{display: 'flex'}}>
+                {colors.map((color,index) => {
+                    const choose = color === pickColor;
+                    return (
+                        <li
+                          style={{ backgroundColor: color} }
+                          key={index}
+                          className={` ${choose ? 'gridColor' : 'selectcolor'}`}
+                          onClick={() => selectColor(color)}
+                        />
+                    )
+                })}
+            </ul>
+       
+    )
+}
+
+
+
+function changeColor(index) {
+    const newgridTam = [...gridTam];
+    newgridTam[index] = color;
+    setGridTam(newgridTam);
+        }
+
+function changeColor2(index, move) { 
+            if (move.buttons === 1) { 
+                const newgridTam = [...gridTam];
+                newgridTam[index] = color;
+                setGridTam(newgridTam);
             }
-            /** This is just an HTTP response, not the actual JSON.
-            * To extract the JSON body content from the response, we use the json() method
-            */
-            return response.json();
-          }
-        ).then(
-          data => {
-            setStatus('resolved');
-            setColors(data.colors);
-          }
-        ).catch(
-          error => {
-            setStatus('rejected');
-            setError(error.message);
-            console.error('There has been a problem with your fetch operation;', error)
-          }
-        );
-      }
+        }
 
+function Grid(props){
+        const {
+            tam
+        } = props;
+        return (
+                <div   className="  grid" >
+                    { tam.map((boxColor, index) => (
+                        <div
+                            className = 'pixel'
+                            style={{  backgroundColor: boxColor}}    
+                            onClick={() => changeColor(index)}
+                            onMouseMove={(move) => changeColor2(index, move)} 
+                        />
+
+                    ))}
+
+                </div>
+        )
+    }
 
 
   return (
-        <div className="flex flex-col p-5 bg-gray-200">
-          <h2>
-            Pixel Art App
-          </h2>
-          
+    <div className="container">
+      <div>
+        <div  className="col-sm-6 col-12 ">
           <button
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 mb-5 rounded"
-            onClick={getAListOfColors}
-          >
-            Click me!
-          </button>
+            className="button"
+            onClick={clearBoard}
+          >Clear Board</button>
 
-          {status === 'idle' && (
-            <p>Waiting for a list of colors</p>
-          )}
-
-          {status === 'loading' && (
-            <p>Loading...</p>
-          )}
-
-          {status === 'resolved' && (
-            <ul>
-              {colors.map(item => {
-                return (
-                  <li
-                   key={item.value}
-                    className= "color"
-                    style={{backgroundColor: item.value}}
-                  />
+          <button
+            className="button"
+            onClick={getColors}
+          >Change colors</button>
 
 
-                )
-              })}
-            </ul>
-          )}
         </div>
-      )
+        
+        </div>
+
+        <div  >
+          <PickColor
+            colors={colorAdd}
+            pickColor={color}
+            selectColor={setColor}
+          />
+      </div>
+      <div
+        className="row marginTop gridtam"
+      >    
+          <Grid
+            tam={gridTam}
+          />
+      </div>
+    </div>
+  );
 }
 
 export default App;

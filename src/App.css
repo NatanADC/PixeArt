@@ -2,6 +2,65 @@
   text-align: center;
 }
 
+
+
+
+.gridColor{
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border: solid #45B39D 3px;
+}  
+
+.pixel{
+
+  height: 50px;
+  width: 50px;
+  border: 1px solid black;
+}
+
+
+.grid{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+
+}
+
+.gridtam{
+  width: 550Px;
+  height: 600px;
+}
+
+ 
+
+.selectcolor{
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border: solid white 3px;
+}
+
+.button{
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  margin-right: 2%;
+}
+
+
+
+.container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      background-color: #282c34;
+      margin-bottom: 100px;
+    }
+
 .color {
       display: inline-block;
       width: 50px;

@@ -13,7 +13,7 @@ function App(props) {
     colorAdd[0]
   ); 
 
-  const gridInit = Array(100).fill('#FFF');
+  const gridInit = Array(100).fill('#45B39D');
 
   let [gridTam, setGridTam] = useState(
     window.localStorage.getItem('gridTam') ? window.localStorage.getItem('gridTam').split(',') : gridInit)
@@ -38,7 +38,7 @@ function App(props) {
     )
 
   }
-
+  
 
   function PickColor(props) {
     const {
@@ -48,7 +48,7 @@ function App(props) {
     } = props;
 
     return (
-            <ul style={{display: 'flex'}}>
+            <ul >
                 {colors.map((color,index) => {
                     const choose = color === pickColor;
                     return (
@@ -89,6 +89,7 @@ function Grid(props){
                 <div   className="  grid" >
                     { tam.map((boxColor, index) => (
                         <div
+                            key={index}
                             className = 'pixel'
                             style={{  backgroundColor: boxColor}}    
                             onClick={() => changeColor(index)}
@@ -104,21 +105,24 @@ function Grid(props){
 
   return (
     <div className="container">
+    <h1 className="pixFont">
+            Pixel Art App
+          </h1>
       <div>
-        <div  className="col-sm-6 col-12 ">
+        <div >
           <button
-            className="button"
+            className="button pixFont"
             onClick={clearBoard}
           >Clear Board</button>
 
-          <button
-            className="button"
-            onClick={getColors}
-          >Change colors</button>
-
 
         </div>
-        
+        <div>
+          <button
+            className="button pixFont"
+            onClick={getColors}
+          >Change colors</button>
+        </div>
         </div>
 
         <div  >

@@ -9,8 +9,21 @@
   display: inline-block;
   width: 50px;
   height: 50px;
-  border: solid #45B39D 3px;
+  border: solid #45B39D 5px;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
 }  
+
+.selectcolor{
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border: solid white 5px;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
 
 .pixel{
 
@@ -36,18 +49,18 @@
 
  
 
-.selectcolor{
-  display: inline-block;
-  width: 50px;
-  height: 50px;
-  border: solid white 3px;
-}
+
 
 .button{
   display: inline-block;
-  width: 50px;
+  width: 150px;
   height: 50px;
   margin-right: 2%;
+  background-color: #45B39D;
+  border-radius: 25px 25px 25px 25px;
+  -moz-border-radius: 25px 25px 25px 25px;
+  -webkit-border-radius: 25px 25px 25px 25px;
+
 }
 
 
@@ -67,3 +80,10 @@
       height: 50px;
       border: 1px solid black;
     }
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.pixFont{
+  font-family: 'Press Start 2P', cursive;
+  color:white;
+}

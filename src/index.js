@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker';
 
 
 const colors = []
-fetch('http://api.noopschallenge.com/hexbot?count=10').then(response =>
+fetch('https://api.noopschallenge.com/hexbot?count=10').then(response =>
   response.json()
 ).then(myJson =>
    myJson.colors.map(item => colors.push(item.value))

@@ -27,7 +27,7 @@ function App(props) {
 
   function getColors() {
     const myColors = []
-    fetch('http://api.noopschallenge.com/hexbot?count=10').then(response =>
+    fetch('https://api.noopschallenge.com/hexbot?count=10').then(response =>
       response.json()
     ).then(myJson =>
       myJson.colors.map(item => myColors.push(item.value))
@@ -36,9 +36,8 @@ function App(props) {
       setColor(myColors[0]);
     }
     )
-
   }
-  
+
 
   function PickColor(props) {
     const {
@@ -133,7 +132,7 @@ function Grid(props){
           />
       </div>
       <div
-        className="row marginTop gridtam"
+        className="gridtam"
       >    
           <Grid
             tam={gridTam}
